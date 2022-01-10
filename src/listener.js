@@ -1,5 +1,6 @@
 const pipe = require("it-pipe");
 const concat = require("it-concat");
+const fetch = require('node-fetch');
 
 function sendToApplication(payload) {
     fetch('http://localhost:8090/receive', {

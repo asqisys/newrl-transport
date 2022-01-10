@@ -2,7 +2,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const {initPeer} = require("./initNode");
 const {dialToAllPeers} = require("./dialer");
-// let fetch = require('node-fetch');
 
 const app = express()
 const port = 8095
