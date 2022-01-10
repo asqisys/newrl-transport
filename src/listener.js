@@ -20,6 +20,7 @@ function listener(node) {
             stream,
             concat
         )
+        console.log("Received data, sending to application")
         sendToApplication(result.toString())
     })
 }
