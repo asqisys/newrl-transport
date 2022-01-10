@@ -12,8 +12,6 @@ function sendToApplication(payload) {
     }).catch(err => {
         console.log(err);
     });
-    // Fetch- 8090/receive
-    // api - create-transaction - sign - run - updater
 }
 
 function listener(node) {
