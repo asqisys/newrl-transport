@@ -30,7 +30,7 @@ app.post('/send', (req, res) => {
 
 });
 
-app.post('/update', (req, res) => {
+app.get('/update', (req, res) => {
     updateAllPeers(global.peer)
     res.send('200')
 
