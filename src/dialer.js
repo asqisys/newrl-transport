@@ -26,6 +26,22 @@ function dial(node, address, data) {
     })
 }
 
+function dialInternal(node, address,data) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const {stream} = await node.dialProtocol(address, '/update')
+            pipe(
+                [JSON.stringify(data)],
+                stream
+            )
+            console.log("Sent data to : "+ address.toString())
+        }
+        catch (e){
+            console.log("Error in dial to: "+ address.toString())
+        }
+    })
+}
+
 let dialToAllPeers = (node, data) => {
     getPeers().then((result) => {
         const promises = [];
@@ -43,4 +59,21 @@ let dialToAllPeers = (node, data) => {
 
 }
 
-module.exports = {dialToAllPeers}
+let updateAllPeers = (node) => {
+    getPeers().then((result) => {
+        const promises = [];
+        for (let i = 0; i < result.length; i++) {
+            let peer = result[i]
+            promises.push(dialInternal(node, createPath(peer.address, peer.peerID), "update412"))
+        }
+        Promise.all(promises)
+            .then(() => {
+                console.log("Dialled All")
+            })
+            .catch((e) => {
+            });
+    })
+
+}
+
+module.exports = {dialToAllPeers,updateAllPeers}

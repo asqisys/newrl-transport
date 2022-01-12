@@ -9,6 +9,7 @@ const libp2p = require("libp2p");
 const process = require("process");
 const pipe = require("it-pipe");
 const concat = require("it-concat");
+const { exec } = require('child_process');
 const DEFAULT_OPTS = {
     addresses: {
         // To signal the addresses we want to be available, we use
@@ -37,5 +38,29 @@ const stop = async (node) => {
     process.exit(0)
 }
 
+const updateCode = ()=>{
+    exec('git pull', (err, stdout, stderr) => {
+        console.log("Updating CodeBase")
+    });
+    exec('npm install',()=>{
+        console.log("Installing Dependencies")
+    })
+    restartServer()
+}
 
-module.exports = {DEFAULT_OPTS,printAddress,stop,createPath}
+const restartServer = ()=>{
+    setTimeout(function () {
+        // When NodeJS exits
+        process.on("exit", function () {
+
+            require("child_process").spawn(process.argv.shift(), process.argv, {
+                cwd: process.cwd(),
+                detached : true,
+                stdio: "inherit"
+            });
+        });
+        process.exit();
+    }, 1000);
+}
+
+module.exports = {DEFAULT_OPTS,printAddress,stop,createPath,updateCode,restartServer}

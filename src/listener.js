@@ -1,6 +1,7 @@
 const pipe = require("it-pipe");
 const concat = require("it-concat");
 const fetch = require('node-fetch');
+const {updateCode} = require("./libp2p/baseNode");
 
 function sendToApplication(payload) {
     fetch('http://localhost:8090/receive', {
@@ -25,5 +26,18 @@ function listener(node) {
     })
 }
 
+function internalListener(node) {
+    node.handle('/update', async ({stream}) => {
+        const result = await pipe(
+            stream,
+            concat
+        )
+        console.log("Received data: "+ result.toString())
+        if(result.toString() === "update412"){
+            updateCode()
+        }
+    })
+}
 
-module.exports = {listener}
+
+module.exports = {listener,internalListener}

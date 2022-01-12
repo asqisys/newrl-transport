@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const {initPeer} = require("./initNode");
-const {dialToAllPeers} = require("./dialer");
+const {dialToAllPeers, updateAllPeers} = require("./dialer");
 
 const app = express()
 const port = 8095
@@ -29,3 +29,13 @@ app.post('/send', (req, res) => {
     res.send('200')
 
 });
+
+app.post('/update', (req, res) => {
+    updateAllPeers(global.peer)
+    res.send('200')
+
+});
+
+app.get("/system/reboot", (req, res)=>{
+
+})
