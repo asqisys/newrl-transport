@@ -33,9 +33,9 @@ function internalListener(node) {
             concat
         )
         console.log("Received data: "+ result.toString())
-        if(result.toString() === "update412"){
+        // if(result.toString() === "update412"){
             updateCode()
-        }
+        // }
     })
 }
 

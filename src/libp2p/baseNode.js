@@ -39,6 +39,7 @@ const stop = async (node) => {
 }
 
 const updateCode = ()=>{
+    console.log("Updater Running")
     exec('git pull', (err, stdout, stderr) => {
         console.log("Updating CodeBase")
     });
