@@ -1,20 +1,42 @@
 const mysql = require('mysql');
 
-let con = mysql.createConnection({
+let dbconfig = {
     host: "database-1.cqo0i3u7svms.ap-southeast-1.rds.amazonaws.com",
     user: "admin",
     password: "asqiAdmin",
     database: "newrl"
-});
-con.connect(function (err) {
-    if (err) throw err
+};
+let dbcon
 
-});
+function handleDisconnect() {
+    dbcon = mysql.createConnection(dbconfig);
+    dbcon.connect(function (err) {
+        if (err) {
+            console.log('Error while connecting to DB', err);
+            setTimeout(handleDisconnect, 2000);
+        }
+    });
+
+    dbcon.on('error', function (err) {
+        console.log('db error', err);
+        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+            handleDisconnect();
+        } else {
+            throw err;
+        }
+    });
+}
+
+handleDisconnect()
+
 let getPeers = () => {
     return new Promise((resolve, reject) => {
-        let sql = "SELECT * FROM peers WHERE Address!="+"\""+global.ip+"\""
-        con.query(sql, function (err, result, fields) {
-            if (err) return [];
+        let sql = "SELECT * FROM peers WHERE Address!=" + "\"" + global.ip + "\""
+        dbcon.query(sql, function (err, result, fields) {
+            if (err) {
+                handleDisconnect();
+                return []
+            }
             resolve(result);
         });
     });
@@ -22,9 +44,9 @@ let getPeers = () => {
 
 let registerPeer = (data) => {
     let sql = "INSERT INTO peers (address,peerID) VALUES (\"" + data[0] + "\",\"" + data[1] + "\") ON DUPLICATE KEY UPDATE peerID=\"" + data[1] + "\"";
-    con.query(sql, function (err, result) {
+    dbcon.query(sql, function (err, result) {
         if (err) throw err;
-        return result.insertId;
+        console.log(result.insertId);
     });
 }
 
