@@ -9,7 +9,7 @@ let extIP = require('ext-ip')();
 function listen(node) {
     Node.printAddress(node)
     listener(node);
-    // internalListener(node)
+    internalListener(node)
 }
 
 
