@@ -17,6 +17,7 @@ function sendToApplication(payload) {
 
 function listener(node) {
     node.handle('/receive', async ({stream}) => {
+        console.log("triggered")
         const result = await pipe(
             stream,
             concat

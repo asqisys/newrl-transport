@@ -31,7 +31,7 @@ handleDisconnect()
 
 let getPeers = () => {
     return new Promise((resolve, reject) => {
-        let sql = "SELECT * FROM peers WHERE Address!=" + "\"" + global.ip + "\""
+        let sql = "SELECT * FROM peers WHERE Address!=" + "\"" + global.ip + "\" And id=120"
         dbcon.query(sql, function (err, result, fields) {
             if (err) {
                 handleDisconnect();
