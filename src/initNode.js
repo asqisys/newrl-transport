@@ -7,7 +7,6 @@ let extIP = require('ext-ip')();
 
 
 function listen(node) {
-    Node.printAddress(node)
     listener(node);
     internalListener(node)
 }
@@ -20,6 +19,7 @@ async function initPeer()  {
     extIP.get().then(ip => {
         global.ip = ip.toString()
         registerPeer([ip.toString(), node.peerId.toB58String()])
+        Node.printAddress(node)
     }).catch(err => {
         console.error(err);
     });

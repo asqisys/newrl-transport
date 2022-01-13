@@ -24,8 +24,10 @@ const DEFAULT_OPTS = {
 }
 
 const printAddress = (node) => {
-    console.log('Node is listening on:')
-    node.multiaddrs.forEach((ma) => console.log(`${ma.toString()}/p2p/${node.peerId.toB58String()}`))
+    console.log('Node Internal Addresses:')
+    node.multiaddrs.forEach((ma) => console.log(ma.toString()+"/p2p/"+node.peerId.toB58String()))
+    console.log('Node External Address:')
+    console.log(createPath(global.ip,node.peerId.toB58String()))
 }
 
 const createPath = (address,peerid) => {
