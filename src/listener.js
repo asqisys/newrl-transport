@@ -22,7 +22,7 @@ function listener(node) {
             stream,
             concat
         )
-        console.log("Received data, sending to application")
+        console.log("Received data, sending to application: "+ result.toString())
         sendToApplication(result.toString())
     })
 }
