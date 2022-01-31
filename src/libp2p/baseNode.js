@@ -41,7 +41,8 @@ const DEFAULT_OPTS = {
                 interval: 60e3,
                     enabled: true,
                     list: [
-                        '/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ',
+                        // '/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ',
+                        '/ip4/18.140.71.178/tcp/52724/p2p/Qmb7RDb1iUr81gfboAmoduYu5EDNfv6cc5aQK2pmVXgTZ2'
                     ]
             }
         }
