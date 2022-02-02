@@ -31,19 +31,18 @@ const DEFAULT_OPTS = {
     },
     modules: {
         transport: [TCP],
-            streamMuxer: [MPLEX],
-            connEncryption: [NOISE],
-            peerDiscovery: [Bootstrap]
+        streamMuxer: [MPLEX],
+        connEncryption: [NOISE],
+        peerDiscovery: [Bootstrap]
     },
     config: {
         peerDiscovery: {
-            bootstrap: {
+            [Bootstrap.tag]: {
                 interval: 60e3,
-                    enabled: true,
-                    list: [
-                        // '/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ',
-                        '/ip4/18.140.71.178/tcp/52724/p2p/Qmb7RDb1iUr81gfboAmoduYu5EDNfv6cc5aQK2pmVXgTZ2'
-                    ]
+                enabled: true,
+                list: [
+                    '/ip4/18.140.71.178/tcp/52724/p2p/QmVhVZb6sWEc11kQdkhGacWu89hWK1KELPdbSPvY8GpyhB'
+                ]
             }
         }
     }
@@ -116,7 +115,7 @@ const generatePeerID = () => {
 //         // let peer = new PeerInfo(id2)
 //         // peer.multiaddrs.add(DEFAULT_OPTS["addresses"]["listen"][0])
 //         // console.log("Initialized peer from wallet")
-        let config  = DEFAULT_OPTS
+        let config = DEFAULT_OPTS
 //         config["peerId"] = id3
         resolve(config)
     })
