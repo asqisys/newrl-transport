@@ -18,7 +18,7 @@ async function initPeer()  {
     let config = await generatePeerID();
     const node = await libp2p.create(config)
 
-    node.on('peer:connect', (connection) => {
+    node.connectionManager.on('peer:connect', (connection) => {
         console.log('Connection established to:', connection.remotePeer.toB58String())	// Emitted when a peer has been found
     })
 

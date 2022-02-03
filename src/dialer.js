@@ -47,7 +47,8 @@ let dialToAllPeers = (node, data) => {
         const promises = [];
         for (let i = 0; i < result.length; i++) {
             let peer = result[i]
-            promises.push(dial(node, createPath(peer.address, peer.peerID), data))
+            // promises.push(dial(node, createPath(peer.address, peer.peerID), data))
+            promises.push(dial(node,"/ip4/18.140.71.178/tcp/52724/p2p/QmRfJE8omjEENoPeQToQmZq9z71atSZLBhyJLJLAkqnvzH", data))
         }
         Promise.all(promises)
             .then(() => {

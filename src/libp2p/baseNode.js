@@ -37,12 +37,13 @@ const DEFAULT_OPTS = {
     },
     config: {
         peerDiscovery: {
+            autoDial: true,
             [Bootstrap.tag]: {
-                interval: 60e3,
-                enabled: true,
-                list: [
-                    '/ip4/18.140.71.178/tcp/52724/p2p/QmVhVZb6sWEc11kQdkhGacWu89hWK1KELPdbSPvY8GpyhB'
-                ]
+                list: [ // A list of bootstrap peers to connect to starting up the node
+                    '/ip4/18.140.71.178/tcp/52724/p2p/QmXc2gHBY7YnNBmrobP44j1AP4oyAxKrXU5FYc144kpPgn'
+                ],
+                interval: 2000,
+                enabled: true
             }
         }
     }
