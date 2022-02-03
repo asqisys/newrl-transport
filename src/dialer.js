@@ -45,9 +45,13 @@ function dialInternal(node, address,data) {
 let dialToAllPeers = (node, data) => {
     // getPeers().then((result) => {
         const promises = [];
+        node.peerStore.peers.forEach(async (peer) => {
+            // console.log(peer.id)
+            promises.push(dial(node, peer.id, data))
+        });
         // for (let i = 0; i < result.length; i++) {
         //     let peer = result[i]
-            promises.push(dial(node, createPath(peer.address, peer.peerID), data))
+        //     promises.push(dial(node, createPath(peer.address, peer.peerID), data))
         // }
         Promise.all(promises)
             .then(() => {
