@@ -10,6 +10,7 @@ const process = require("process");
 const pipe = require("it-pipe");
 const concat = require("it-concat");
 const { exec } = require('child_process');
+const Bootstrap = require("libp2p-bootstrap");
 const DEFAULT_OPTS = {
     addresses: {
         // To signal the addresses we want to be available, we use
@@ -19,7 +20,20 @@ const DEFAULT_OPTS = {
     modules: {
         transport: [TCP],
         connEncryption: [NOISE],
-        streamMuxer: [MPLEX]
+        streamMuxer: [MPLEX],
+        peerDiscovery: [Bootstrap]
+    },
+    config: {
+        peerDiscovery: {
+            autoDial: true,
+            [Bootstrap.tag]: {
+                list: [ // A list of bootstrap peers to connect to starting up the node
+                    '/ip4/18.140.71.178/tcp/52724/p2p/QmXc2gHBY7YnNBmrobP44j1AP4oyAxKrXU5FYc144kpPgn'
+                ],
+                interval: 2000,
+                enabled: true
+            }
+        }
     }
 }
 

@@ -14,7 +14,17 @@ function listen(node) {
 
 async function initPeer()  {
 
-    const node = await libp2p.create(Node.DEFAULT_OPTS)
+    let node = await libp2p.create(Node.DEFAULT_OPTS)
+
+    node.connectionManager.on('peer:connect', (connection) => {
+        console.log('Connection established to:', connection.remotePeer.toB58String())	// Emitted when a peer has been found
+    })
+
+    node.on('peer:discovery', (peerId) => {
+        // No need to dial, autoDial is on
+        console.log('Discovered:', peerId.toB58String())
+    })
+
     await node.start()
     extIP.get().then(ip => {
         global.ip = ip.toString()
