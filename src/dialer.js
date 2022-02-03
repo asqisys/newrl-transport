@@ -46,7 +46,7 @@ let dialToAllPeers = (node, data) => {
     // getPeers().then((result) => {
         const promises = [];
         node.peerStore.peers.forEach(async (peer) => {
-            // console.log(peer.id)
+            console.log(peer.id.toB58String())
             promises.push(dial(node, peer.id, data))
         });
         // for (let i = 0; i < result.length; i++) {
