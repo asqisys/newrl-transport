@@ -1,27 +1,30 @@
 const fs = require('fs');
 const pipe = require("it-pipe");
-const {IDENTITY_FILE_PATH} = require("../data/const");
+const IDENTITY_FILE_PATH = "./src/data/identity.json"
 
 function readFromJSONFile(path) {
     try {
         return JSON.parse(fs.readFileSync(path, 'utf8'));
-    } catch (e) {
+    }
+    catch (e){
         return null;
     }
 }
 
 function writeJSONFile(data) {
     try {
-        return (fs.writeFileSync(IDENTITY_FILE_PATH, JSON.stringify(data), 'utf8'));
-    } catch (e) {
+        return (fs.writeFileSync(IDENTITY_FILE_PATH,JSON.stringify(data), 'utf8'));
+    }
+    catch (e){
         return null;
     }
 }
 
-function connectionPrint(nodeAddress) {
+function connectionPrint(nodeAddress){
     try {
-        return nodeAddress.toB58String()
-    } catch (e) {
+       return nodeAddress.toB58String()
+    }
+    catch (e){
         return nodeAddress.toString()
     }
 }
@@ -38,13 +41,4 @@ const createPath = (address, peerid) => {
     return "/ip4/" + address + "/tcp/52724/p2p/" + peerid;
 }
 
-const discoverPeersFromList = (node, list) => {
-        let addressList = list[0]
-        console.log(addressList);
-        // addressList.split(',').map(async (address) => {
-        //     let latency = await node.ping(address)
-        //     console.log("Ping" + address + " Latency " + latency)
-        // });
-}
-
-module.exports = {writeJSONFile, readFromJSONFile, connectionPrint, printAddress, createPath, discoverPeersFromList}
+module.exports = {IDENTITY_FILE_PATH,writeJSONFile,readFromJSONFile,connectionPrint,printAddress,createPath}
