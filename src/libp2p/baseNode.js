@@ -28,7 +28,6 @@ const DEFAULT_OPTS = {
             autoDial: true,
             [Bootstrap.tag]: {
                 list: [
-                    '/ip4/13.38.125.254/tcp/52724/p2p/QmYoVeL88s2ugXFqwHvcYXjPw9FhGXSukXKVQRJYDRzLXR'
                 ],
                 interval: 2000,
                 enabled: true
