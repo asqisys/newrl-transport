@@ -18,10 +18,10 @@ function dial(node, address, data) {
                 [JSON.stringify(data)],
                 stream
             )
-            console.log("Sent data to : "+ address.toString())
+            console.log("Sent data to "+ address.toString()+":"+address.toB58String())
         }
         catch (e){
-            console.log("Error in dial to: "+ address.toString())
+            console.log("Error in dial to: "+ address.toString()+":"+address.toB58String())
         }
     })
 }
@@ -43,23 +43,28 @@ function dialInternal(node, address,data) {
 }
 
 let dialToAllPeers = (node, data) => {
-    // getPeers().then((result) => {
-        const promises = [];
+    const promises = [];
+    if(data['operation'] === "0") {
         node.peerStore.peers.forEach(async (peer) => {
-            console.log(peer.id.toB58String())
+            // console.log(peer.id.toB58String())
             promises.push(dial(node, peer.id, data))
         });
-        // for (let i = 0; i < result.length; i++) {
-        //     let peer = result[i]
-        //     promises.push(dial(node, createPath(peer.address, peer.peerID), data))
-        // }
-        Promise.all(promises)
-            .then(() => {
-                console.log("Dialled All")
-            })
-            .catch((e) => {
-            });
-    // })
+    }else {
+        getPeers().then((result) => {
+
+            for (let i = 0; i < result.length; i++) {
+                let peer = result[i]
+                promises.push(dial(node, createPath(peer.address, peer.peerID), data))
+            }
+
+        })
+    }
+    Promise.all(promises)
+        .then(() => {
+            console.log("Dialled All")
+        })
+        .catch((e) => {
+        });
 
 }
 

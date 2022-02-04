@@ -28,7 +28,7 @@ const DEFAULT_OPTS = {
             autoDial: true,
             [Bootstrap.tag]: {
                 list: [ // A list of bootstrap peers to connect to starting up the node
-                    '/ip4/18.140.71.178/tcp/52724/p2p/QmccsnYunEKKpmDRmNmFyJooihGZcxN4xKBBPHVKESUrMt'
+                    '/ip4/13.38.125.254/tcp/52724/p2p/QmYoVeL88s2ugXFqwHvcYXjPw9FhGXSukXKVQRJYDRzLXR'
                 ],
                 interval: 2000,
                 enabled: true
