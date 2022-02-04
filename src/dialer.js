@@ -7,7 +7,7 @@ const multiAddr = require("multiaddr");
 const {registerPeer, getPeers} = require("./discovery");
 const fetch = require("node-fetch");
 const {listener} = require("./listener");
-const {createPath} = require("./libp2p/baseNode");
+const {connectionPrint, createPath} = require("./utility/utility");
 
 
 function dial(node, address, data) {
@@ -18,10 +18,10 @@ function dial(node, address, data) {
                 [JSON.stringify(data)],
                 stream
             )
-            console.log("Sent data to "+ address.toString()+":"+address.toB58String())
+            console.log("Sent data to "+ connectionPrint(address))
         }
         catch (e){
-            console.log("Error in dial to: "+ address.toString()+":"+address.toB58String())
+            console.log("Error in dial to: "+ connectionPrint(address))
         }
     })
 }
@@ -51,10 +51,10 @@ let dialToAllPeers = (node, data) => {
         });
     }else {
         getPeers().then((result) => {
-
             for (let i = 0; i < result.length; i++) {
                 let peer = result[i]
-                promises.push(dial(node, createPath(peer.address, peer.peerID), data))
+            //     promises.push(dial(node, createPath(peer.address, peer.peerID), data))
+                promises.push(node.ping(createPath(peer.address, peer.peerID)))
             }
 
         })

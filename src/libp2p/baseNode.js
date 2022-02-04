@@ -9,12 +9,12 @@ const libp2p = require("libp2p");
 const process = require("process");
 const pipe = require("it-pipe");
 const concat = require("it-concat");
-const { exec } = require('child_process');
+const {exec} = require('child_process');
 const Bootstrap = require("libp2p-bootstrap");
+const {readFromJSONFile, IDENTITY_FILE_PATH, writeJSONFile} = require("../utility/utility");
+const PeerId = require("peer-id");
 const DEFAULT_OPTS = {
     addresses: {
-        // To signal the addresses we want to be available, we use
-        // the multiaddr format, a self describable address
         listen: ['/ip4/0.0.0.0/tcp/52724']
     },
     modules: {
@@ -27,7 +27,7 @@ const DEFAULT_OPTS = {
         peerDiscovery: {
             autoDial: true,
             [Bootstrap.tag]: {
-                list: [ // A list of bootstrap peers to connect to starting up the node
+                list: [
                     '/ip4/13.38.125.254/tcp/52724/p2p/QmYoVeL88s2ugXFqwHvcYXjPw9FhGXSukXKVQRJYDRzLXR'
                 ],
                 interval: 2000,
@@ -37,42 +37,31 @@ const DEFAULT_OPTS = {
     }
 }
 
-const printAddress = (node) => {
-    console.log('Node Internal Addresses:')
-    node.multiaddrs.forEach((ma) => console.log(ma.toString()+"/p2p/"+node.peerId.toB58String()))
-    console.log('Node External Address:')
-    console.log(createPath(global.ip,node.peerId.toB58String()))
-}
-
-const createPath = (address,peerid) => {
-    return "/ip4/"+ address+"/tcp/52724/p2p/"+peerid;
-}
-
 const stop = async (node) => {
     await node.stop()
     console.log('libp2p has stopped')
     process.exit(0)
 }
 
-const updateCode = ()=>{
+const updateCode = () => {
     console.log("Updater Running @#$")
     exec('git pull', (err, stdout, stderr) => {
         console.log("Updating CodeBase")
     });
-    exec('npm install',()=>{
+    exec('npm install', () => {
         console.log("Installing Dependencies")
     })
     restartServer()
 }
 
-const restartServer = ()=>{
+const restartServer = () => {
     setTimeout(function () {
         // When NodeJS exits
         process.on("exit", function () {
 
             require("child_process").spawn(process.argv.shift(), process.argv, {
                 cwd: process.cwd(),
-                detached : true,
+                detached: true,
                 stdio: "inherit"
             });
         });
@@ -80,4 +69,23 @@ const restartServer = ()=>{
     }, 1000);
 }
 
-module.exports = {DEFAULT_OPTS,printAddress,stop,createPath,updateCode,restartServer}
+async function createPeerIdentity() {
+    let identityJson = await PeerId.create({bits: 1024, keyType: 'RSA'})
+    writeJSONFile(identityJson.toJSON())
+    return identityJson;
+}
+
+const generatePeerID = () => {
+    return new Promise(async (resolve, reject) => {
+        let nodeConfig = DEFAULT_OPTS
+        let identityJson = readFromJSONFile(IDENTITY_FILE_PATH)
+        if(identityJson)
+            nodeConfig["peerId"] = await PeerId.createFromJSON(identityJson)
+        else{
+            nodeConfig["peerId"] = await createPeerIdentity();
+        }
+        resolve(nodeConfig)
+    })
+}
+
+module.exports = {DEFAULT_OPTS, stop, updateCode, restartServer, generatePeerID}
