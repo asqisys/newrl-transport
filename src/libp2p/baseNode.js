@@ -1,64 +1,40 @@
+const Libp2p = require('libp2p')
 const TCP = require('libp2p-tcp')
-const NOISE = require("libp2p-noise");
+const Multiplex = require('libp2p-mplex')
+const SECIO = require('libp2p-secio')
+const defaultsDeep = require('@nodeutils/defaults-deep')
+const {NOISE} = require("libp2p-noise");
 const MPLEX = require('libp2p-mplex')
+const libp2p = require("libp2p");
 const process = require("process");
+const pipe = require("it-pipe");
+const concat = require("it-concat");
 const {exec} = require('child_process');
-const PeerId = require('peer-id')
-const {readFromJSONFile} = require("../utility/utility");
-const Base58 = require("base-58")
-const protobuf = require('protobufjs');
-const path = require("path");
-const PeerInfo = require('peer-info')
-const defaultsDeep = require("@nodeutils/defaults-deep");
 const Bootstrap = require("libp2p-bootstrap");
-
-
-const WALLET_PATH = `src/data/wallet2.json`
-// const DEFAULT_OPTS = {
-//     addresses: {
-//         listen: ['/ip4/0.0.0.0/tcp/52724']
-//     },
-//     peerId: null,
-//     modules: {
-//         transport: [TCP],
-//         connEncryption: [NOISE],
-//         streamMuxer: [MPLEX]
-//     }
-// }
+const {readFromJSONFile, IDENTITY_FILE_PATH, writeJSONFile} = require("../utility/utility");
+const PeerId = require("peer-id");
 const DEFAULT_OPTS = {
     addresses: {
         listen: ['/ip4/0.0.0.0/tcp/52724']
     },
     modules: {
         transport: [TCP],
-        streamMuxer: [MPLEX],
         connEncryption: [NOISE],
+        streamMuxer: [MPLEX],
         peerDiscovery: [Bootstrap]
     },
     config: {
         peerDiscovery: {
             autoDial: true,
             [Bootstrap.tag]: {
-                list: [ // A list of bootstrap peers to connect to starting up the node
-                    '/ip4/18.140.71.178/tcp/52724/p2p/QmXc2gHBY7YnNBmrobP44j1AP4oyAxKrXU5FYc144kpPgn'
+                list: [
+                    '/ip4/13.38.125.254/tcp/52724/p2p/QmYoVeL88s2ugXFqwHvcYXjPw9FhGXSukXKVQRJYDRzLXR'
                 ],
                 interval: 2000,
                 enabled: true
             }
         }
     }
-}
-
-
-const printAddress = (node) => {
-    console.log('Node Internal Addresses:')
-    node.multiaddrs.forEach((ma) => console.log(ma.toString() + "/p2p/" + node.peerId.toB58String()))
-    console.log('Node External Address:')
-    console.log(createPath(global.ip, node.peerId.toB58String()))
-}
-
-const createPath = (address, peerid) => {
-    return "/ip4/" + address + "/tcp/52724/p2p/" + peerid;
 }
 
 const stop = async (node) => {
@@ -93,34 +69,23 @@ const restartServer = () => {
     }, 1000);
 }
 
-async function getWalletData() {
-    let walletFile = readFromJSONFile(WALLET_PATH)
-    // const root = await protobuf.load(path.join("./src/data", 'wallet.proto'));
-    // let priv = root.lookupType('walletPackage.PrivKey');
-    // let pub = root.lookupType('walletPackage.PubKey');
-    // return Buffer.from(walletFile.address, 'utf8').toString('hex');
-    return {
-        pubKey: walletFile.pubKey,
-        // privKey: priv.encode(walletFile.private).finish(),
-        // id: Buffer.from(walletFile.address, 'utf8').toString('hex'),
-    }
-
+async function createPeerIdentity() {
+    let identityJson = await PeerId.create({bits: 1024, keyType: 'RSA'})
+    writeJSONFile(identityJson.toJSON())
+    return identityJson;
 }
 
 const generatePeerID = () => {
     return new Promise(async (resolve, reject) => {
-//
-//         const id3 = await PeerId.createFromJSON(require('../data/wallet2.json'))
-//         // const id = await PeerId.createFromJSON(require('../data/wallet2.json'))
-//         const id = await PeerId.create({bits:2048,keyType: "RSA"})
-//         // let peer = new PeerInfo(id2)
-//         // peer.multiaddrs.add(DEFAULT_OPTS["addresses"]["listen"][0])
-//         // console.log("Initialized peer from wallet")
-        let config = DEFAULT_OPTS
-//         config["peerId"] = id3
-        resolve(config)
+        let nodeConfig = DEFAULT_OPTS
+        let identityJson = readFromJSONFile(IDENTITY_FILE_PATH)
+        if(identityJson)
+            nodeConfig["peerId"] = await PeerId.createFromJSON(identityJson)
+        else{
+            nodeConfig["peerId"] = await createPeerIdentity();
+        }
+        resolve(nodeConfig)
     })
 }
 
-
-module.exports = {DEFAULT_OPTS, printAddress, stop, createPath, updateCode, restartServer, generatePeerID}
+module.exports = {DEFAULT_OPTS, stop, updateCode, restartServer, generatePeerID}
