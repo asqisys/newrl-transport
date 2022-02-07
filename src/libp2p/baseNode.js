@@ -11,9 +11,9 @@ const pipe = require("it-pipe");
 const concat = require("it-concat");
 const {exec} = require('child_process');
 const Bootstrap = require("libp2p-bootstrap");
-const {readFromJSONFile, IDENTITY_FILE_PATH, writeJSONFile} = require("../utility/utility");
+const {readFromJSONFile, writeJSONFile} = require("../utility/utility");
 const PeerId = require("peer-id");
-const {bootstrapList} = require("../data/const");
+const {bootstrapList, IDENTITY_FILE_PATH} = require("../data/const");
 const DEFAULT_OPTS = {
     addresses: {
         listen: ['/ip4/0.0.0.0/tcp/52724']
