@@ -32,7 +32,7 @@ function peerListener(node) {
             stream,
             concat
         )
-        console.log("Received peer data, adding to peerStore")
+        console.log("Received peer data, adding to Peer Store")
         console.log(result.toString())
     })
 }
@@ -51,4 +51,4 @@ function internalListener(node) {
 }
 
 
-module.exports = {listener,internalListener}
+module.exports = {listener,internalListener,peerListener}

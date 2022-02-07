@@ -2,7 +2,7 @@ const libp2p = require("libp2p");
 // const Node = require("./libp2p/baseNode");
 const {registerPeer} = require("./discovery");
 const process = require("process");
-const {listener, internalListener} = require("./listener");
+const {listener, internalListener, peerListener} = require("./listener");
 const {generatePeerID} = require("./libp2p/baseNode");
 const {printAddress} = require("./utility/utility");
 const {sendPeerList} = require("./dialer");
@@ -12,6 +12,7 @@ let extIP = require('ext-ip')();
 function listen(node) {
     listener(node);
     internalListener(node)
+    peerListener(node)
 }
 
 
