@@ -29,6 +29,7 @@ function attachLibp2pEvents(node) {
 
     node.on('peer:discovery', (peerId) => {
         console.log('Discovered:', peerId.toB58String())
+        sendPeerList(node,peerId);
     })
 }
 
