@@ -38,11 +38,13 @@ const createPath = (address, peerid) => {
     return "/ip4/" + address + "/tcp/52724/p2p/" + peerid;
 }
 
-const discoverPeersFromList = async (node, list) => {
-    for (let i = 0; i < list.length; i++) {
-        let latency = await node.ping(list[i][0])
-        console.log("Ping"+ list[i][0].toString()+" Latency " + latency)
-    }
+const discoverPeersFromList = (node, list) => {
+        let addressList = list[0][0]
+        console.log(addressList);
+        addressList.split(',').map(async (address) => {
+            let latency = await node.ping(list[i][0])
+            console.log("Ping" + list[i][0].toString() + " Latency " + latency)
+        });
 }
 
 module.exports = {writeJSONFile, readFromJSONFile, connectionPrint, printAddress, createPath, discoverPeersFromList}
