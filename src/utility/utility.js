@@ -39,11 +39,11 @@ const createPath = (address, peerid) => {
 }
 
 const discoverPeersFromList = (node, list) => {
-        let addressList = list[0][0]
+        let addressList = list[0]
         console.log(addressList);
         addressList.split(',').map(async (address) => {
-            let latency = await node.ping(list[i][0])
-            console.log("Ping" + list[i][0].toString() + " Latency " + latency)
+            let latency = await node.ping(address)
+            console.log("Ping" + address + " Latency " + latency)
         });
 }
 
