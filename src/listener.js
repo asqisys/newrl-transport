@@ -26,6 +26,17 @@ function listener(node) {
     })
 }
 
+function peerListener(node) {
+    node.handle('/peer_communication', async ({stream}) => {
+        const result = await pipe(
+            stream,
+            concat
+        )
+        console.log("Received peer data, adding to peerStore")
+        console.log(result.toString())
+    })
+}
+
 function internalListener(node) {
     node.handle('/update', async ({stream}) => {
         const result = await pipe(

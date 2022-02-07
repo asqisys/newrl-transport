@@ -10,10 +10,10 @@ const {listener} = require("./listener");
 const {connectionPrint, createPath} = require("./utility/utility");
 
 
-function dial(node, address, data) {
+function dial(node, address, data, protocol = '/receive') {
     return new Promise(async (resolve, reject) => {
         try {
-            const {stream} = await node.dialProtocol(address, '/receive')
+            const {stream} = await node.dialProtocol(address, protocol)
             pipe(
                 [JSON.stringify(data)],
                 stream
@@ -85,4 +85,15 @@ let updateAllPeers = (node) => {
 
 }
 
-module.exports = {dialToAllPeers,updateAllPeers}
+let sendPeerList = (node, target) =>{
+    let addressList = [];
+    node.peerStore.peers.forEach( (peer) => {
+        let addresses = node.peerStore.addressBook.getMultiaddrsForPeer(peer.id)
+        addressList.push(addresses)
+    });
+    dial(node, target, addressList,"/peer_communication")
+    // dialToAllPeers(node,{"operation": "0"})
+
+}
+
+module.exports = {dialToAllPeers,updateAllPeers,sendPeerList}
