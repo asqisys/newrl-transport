@@ -11,8 +11,9 @@ const pipe = require("it-pipe");
 const concat = require("it-concat");
 const {exec} = require('child_process');
 const Bootstrap = require("libp2p-bootstrap");
-const {readFromJSONFile, IDENTITY_FILE_PATH, writeJSONFile} = require("../utility/utility");
+const {readFromJSONFile, writeJSONFile} = require("../utility/utility");
 const PeerId = require("peer-id");
+const {bootstrapList, IDENTITY_FILE_PATH} = require("../data/const");
 const DEFAULT_OPTS = {
     addresses: {
         listen: ['/ip4/0.0.0.0/tcp/52724']
@@ -27,9 +28,7 @@ const DEFAULT_OPTS = {
         peerDiscovery: {
             autoDial: true,
             [Bootstrap.tag]: {
-                list: [
-                    '/ip4/13.38.125.254/tcp/52724/p2p/QmYoVeL88s2ugXFqwHvcYXjPw9FhGXSukXKVQRJYDRzLXR'
-                ],
+                list: bootstrapList,
                 interval: 2000,
                 enabled: true
             }
@@ -87,5 +86,6 @@ const generatePeerID = () => {
         resolve(nodeConfig)
     })
 }
+
 
 module.exports = {DEFAULT_OPTS, stop, updateCode, restartServer, generatePeerID}
