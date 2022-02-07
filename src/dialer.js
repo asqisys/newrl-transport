@@ -93,7 +93,6 @@ let sendPeerList = (node, target) =>{
     });
     dial(node, target, addressList,"/peer_communication")
     // dialToAllPeers(node,{"operation": "0"})
-
 }
 
 module.exports = {dialToAllPeers,updateAllPeers,sendPeerList}

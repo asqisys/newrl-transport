@@ -41,4 +41,9 @@ const createPath = (address, peerid) => {
     return "/ip4/" + address + "/tcp/52724/p2p/" + peerid;
 }
 
-module.exports = {writeJSONFile,readFromJSONFile,connectionPrint,printAddress,createPath}
+const discoverPeersFromList =  (node ,list) =>{
+    console.log(list)
+
+}
+
+module.exports = {writeJSONFile,readFromJSONFile,connectionPrint,printAddress,createPath,discoverPeersFromList}
