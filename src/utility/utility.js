@@ -1,6 +1,6 @@
 const fs = require('fs');
 const pipe = require("it-pipe");
-const IDENTITY_FILE_PATH = "./src/data/identity.json"
+const {IDENTITY_FILE_PATH} = require("../data/const");
 
 function readFromJSONFile(path) {
     try {
@@ -41,4 +41,4 @@ const createPath = (address, peerid) => {
     return "/ip4/" + address + "/tcp/52724/p2p/" + peerid;
 }
 
-module.exports = {IDENTITY_FILE_PATH,writeJSONFile,readFromJSONFile,connectionPrint,printAddress,createPath}
+module.exports = {writeJSONFile,readFromJSONFile,connectionPrint,printAddress,createPath}

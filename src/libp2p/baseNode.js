@@ -13,6 +13,7 @@ const {exec} = require('child_process');
 const Bootstrap = require("libp2p-bootstrap");
 const {readFromJSONFile, IDENTITY_FILE_PATH, writeJSONFile} = require("../utility/utility");
 const PeerId = require("peer-id");
+const {bootstrapList} = require("../data/const");
 const DEFAULT_OPTS = {
     addresses: {
         listen: ['/ip4/0.0.0.0/tcp/52724']
@@ -27,8 +28,7 @@ const DEFAULT_OPTS = {
         peerDiscovery: {
             autoDial: true,
             [Bootstrap.tag]: {
-                list: [
-                ],
+                list: bootstrapList,
                 interval: 2000,
                 enabled: true
             }

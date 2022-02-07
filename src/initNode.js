@@ -23,8 +23,6 @@ function attachLibp2pEvents(node) {
     // })
 
     node.on('peer:discovery', (peerId) => {
-
-        // No need to dial, autoDial is on
         console.log('Discovered:', peerId.toB58String())
     })
 }
