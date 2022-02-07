@@ -22,6 +22,7 @@ function dial(node, address, data, protocol = '/receive') {
         }
         catch (e){
             console.log("Error in dial to: "+ connectionPrint(address))
+            console.log("Stack Trace : \n "+ e.stack)
         }
     })
 }
