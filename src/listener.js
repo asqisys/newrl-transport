@@ -34,7 +34,7 @@ function peerListener(node) {
             concat
         )
         console.log("Received peer data, adding to Peer Store")
-        discoverPeersFromList(result)
+        discoverPeersFromList(node,result)
         console.log(result.toString())
     })
 }
