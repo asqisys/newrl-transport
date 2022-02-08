@@ -20,7 +20,7 @@ function attachLibp2pEvents(node) {
     node.connectionManager.on('peer:connect', (connection) => {
         console.log('Connection established to:', connection.remotePeer.toB58String())
         console.log('Sending peer list to :', connection.remotePeer.toB58String())
-        node.peerStore.addressBook.set(connection.remotePeer, connection.remoteAddr)
+        node.peerStore.addressBook.add(connection.remotePeer, connection.remoteAddr)
         sendPeerList(node,connection.remotePeer);
     });
 
