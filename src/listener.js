@@ -2,6 +2,7 @@ const pipe = require("it-pipe");
 const concat = require("it-concat");
 const fetch = require('node-fetch');
 const {updateCode} = require("./libp2p/baseNode");
+const {handlePeerCommunication} = require("./utility/utilityNetwork");
 // const {handlePeerCommunication} = require("./utility/utilityNetwork");
 
 function sendToApplication(payload) {
@@ -33,7 +34,7 @@ function peerListener(node) {
             stream,
             concat
         )
-        // handlePeerCommunication(node,JSON.parse(result.toString()))
+        handlePeerCommunication(node,JSON.parse(result.toString()))
         console.log(result.toString())
     })
 }
