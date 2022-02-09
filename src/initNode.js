@@ -17,15 +17,25 @@ function listen(node) {
 
 
 function attachLibp2pEvents(node) {
+    node.peerStore.on('peer', async (peerId) => {
+        console.log('Peer added:', peerId.toB58String())	// Emitted when a peer has been found
+        console.log("latency " + await node.ping(peerId))
+        // console.log('Peer added:', peerId.toB58String())	// Emitted when a peer has been found
+    })
+
     node.connectionManager.on('peer:connect', (connection) => {
         console.log('Connection established to:', connection.remotePeer.toB58String())
-        // console.log('Sending peer list to :', connection.remotePeer.toB58String())
+        // console.log('Peer list: ', connection.remotePeer.toB58String())
+        // node.peerStore.peers.forEach( (peer) => {
+        //     console.log(peer.id.toB58String())
+        //     promises.push(dial(node, peer.id, data))
+        // });
+        // console.log('Peer list end ', connection.remotePeer.toB58String())
+
         // sendPeerList(node,connection.remoteAddr.toJSON() +'/'+connection.remotePeer.toB58String());
     });
 
-    node.peerStore.on('peer', (peerId) => {
-        console.log('Peer added:', peerId.toB58String())	// Emitted when a peer has been found
-    })
+
 
     node.on('peer:discovery', (peerId) => {
         console.log('Discovered:', peerId.toB58String())
