@@ -19,18 +19,17 @@ function listen(node) {
 function attachLibp2pEvents(node) {
     node.connectionManager.on('peer:connect', (connection) => {
         console.log('Connection established to:', connection.remotePeer.toB58String())
-        console.log('Sending peer list to :', connection.remotePeer.toB58String())
-        // node.peerStore.addressBook.add(connection.remotePeer, connection.remoteAddr)
-        sendPeerList(node,connection.remoteAddr.toJSON() +'/'+connection.remotePeer.toB58String());
+        // console.log('Sending peer list to :', connection.remotePeer.toB58String())
+        // sendPeerList(node,connection.remoteAddr.toJSON() +'/'+connection.remotePeer.toB58String());
     });
 
-    // node.peerStore.on('peer', (peerId) => {
-    //     console.log('Peer added:', peerId.toB58String())	// Emitted when a peer has been found
-    // })
+    node.peerStore.on('peer', (peerId) => {
+        console.log('Peer added:', peerId.toB58String())	// Emitted when a peer has been found
+    })
 
     node.on('peer:discovery', (peerId) => {
         console.log('Discovered:', peerId.toB58String())
-        sendPeerList(node,peerId);
+        // sendPeerList(node,peerId);
     })
 }
 
