@@ -39,8 +39,8 @@ const createPath = (address, peerid) => {
 }
 
 const discoverPeersFromList = (node, list) => {
-        let addressList = list[0]
-        console.log(addressList);
+        // let addressList = list[0]
+        // console.log(addressList);
         // addressList.split(',').map(async (address) => {
         //     let latency = await node.ping(address)
         //     console.log("Ping" + address + " Latency " + latency)

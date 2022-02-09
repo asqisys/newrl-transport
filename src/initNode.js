@@ -5,7 +5,7 @@ const process = require("process");
 const {listener, internalListener, peerListener} = require("./listener");
 const {generatePeerID} = require("./libp2p/baseNode");
 const {printAddress, createPath} = require("./utility/utility");
-const {sendPeerList} = require("./dialer");
+const {sendPeerList, dial} = require("./dialer");
 let extIP = require('ext-ip')();
 
 
@@ -18,8 +18,10 @@ function listen(node) {
 
 function attachLibp2pEvents(node) {
     node.peerStore.on('peer', async (peerId) => {
-        console.log('Peer added:', peerId.toB58String())	// Emitted when a peer has been found
-        console.log("latency " + await node.ping(peerId))
+        console.log('Peer added:', peerId.toB58String())
+        dial(node, peerId, {'ops': "dlpeer"},"/peer_communication")
+        // Emitted when a peer has been found
+        // console.log("latency " + await node.ping(peerId))
         // console.log('Peer added:', peerId.toB58String())	// Emitted when a peer has been found
     })
 
