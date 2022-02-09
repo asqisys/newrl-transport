@@ -1,12 +1,5 @@
-const Node = require('./libp2p/baseNode')
 const pipe = require('it-pipe')
-const concat = require('it-concat')
-const libp2p = require("libp2p");
-const process = require("process");
-const multiAddr = require("multiaddr");
-const {registerPeer, getPeers} = require("./discovery");
-const fetch = require("node-fetch");
-const {listener} = require("./listener");
+const { getPeers} = require("./discovery");
 const {connectionPrint, createPath} = require("./utility/utility");
 
 
@@ -93,7 +86,6 @@ let sendPeerList = (node, target) =>{
         addressList.push(addresses)
     });
     dial(node, target, addressList,"/peer_communication")
-    // dialToAllPeers(node,{"operation": "0"})
 }
 
 module.exports = {dialToAllPeers,updateAllPeers,sendPeerList,dial}

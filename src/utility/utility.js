@@ -1,5 +1,4 @@
 const fs = require('fs');
-const pipe = require("it-pipe");
 const {IDENTITY_FILE_PATH} = require("../data/const");
 
 function readFromJSONFile(path) {
@@ -38,13 +37,5 @@ const createPath = (address, peerid) => {
     return "/ip4/" + address + "/tcp/52724/p2p/" + peerid;
 }
 
-const discoverPeersFromList = (node, list) => {
-        // let addressList = list[0]
-        // console.log(addressList);
-        // addressList.split(',').map(async (address) => {
-        //     let latency = await node.ping(address)
-        //     console.log("Ping" + address + " Latency " + latency)
-        // });
-}
 
-module.exports = {writeJSONFile, readFromJSONFile, connectionPrint, printAddress, createPath, discoverPeersFromList}
+module.exports = {writeJSONFile, readFromJSONFile, connectionPrint, printAddress, createPath}

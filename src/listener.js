@@ -2,7 +2,7 @@ const pipe = require("it-pipe");
 const concat = require("it-concat");
 const fetch = require('node-fetch');
 const {updateCode} = require("./libp2p/baseNode");
-const {discoverPeersFromList} = require("./utility/utility");
+// const {handlePeerCommunication} = require("./utility/utilityNetwork");
 
 function sendToApplication(payload) {
     fetch('http://localhost:8090/receive', {
@@ -33,8 +33,7 @@ function peerListener(node) {
             stream,
             concat
         )
-        console.log("Received peer data, adding to Peer Store")
-        discoverPeersFromList(node,result)
+        // handlePeerCommunication(node,JSON.parse(result.toString()))
         console.log(result.toString())
     })
 }

@@ -19,7 +19,7 @@ function listen(node) {
 function attachLibp2pEvents(node) {
     node.peerStore.on('peer', async (peerId) => {
         console.log('Peer added:', peerId.toB58String())
-        dial(node, peerId, {'ops': "dlpeer"},"/peer_communication")
+        await dial(node, peerId, {'ops': "dlpeer",'peerID':peerId.toB58String()},"/peer_communication")
         // Emitted when a peer has been found
         // console.log("latency " + await node.ping(peerId))
         // console.log('Peer added:', peerId.toB58String())	// Emitted when a peer has been found
