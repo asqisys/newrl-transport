@@ -26,7 +26,7 @@ const DEFAULT_OPTS = {
     },
     config: {
         peerDiscovery: {
-            autoDial: false,
+            autoDial: true,
             [Bootstrap.tag]: {
                 list: bootstrapList,
                 interval: 2000,
