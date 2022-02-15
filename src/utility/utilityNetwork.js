@@ -3,8 +3,26 @@ const {createFromB58String} = require("peer-id");
 const {createPath, printPeerList} = require("./utility");
 
 
+function pingPeer(node, peer) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            return console.log("latency" + await node.ping(peer))
+        } catch (e) {
+            switch (e.code) {
+                case "ERR_DIALED_SELF":
+                    console.log("Self dial skipped")
+                    return "Error"
+                    break;
+                default:
+                    console.log(e.message)
+                    return "Generic error"
+                    break;
+            }
+        }
+    })
+}
 
-const handlePeerCommunication = async (node, type) => {
+const handlePeerCommunication = (node, type) => {
     let promises = [];
     switch (type["ops"]) {
         case "dlpeer":
@@ -15,22 +33,7 @@ const handlePeerCommunication = async (node, type) => {
             let addressList = type["list"][0]
             for (let i = 0; i < addressList.length; i++) {
                 let peer = addressList[i]
-                try {
-                    console.log("latency" + await node.ping(peer))
-                }
-                catch (e) {
-                    switch (e.code) {
-                        case "ERR_DIALED_SELF":
-                            console.log("self dial skipped")
-                            break;
-                        default:
-                            console.log(e.message)
-                            break;
-                    }
-                }
-                finally {
-                    printPeerList(node)
-                }
+                promises.push(pingPeer(node, peer));
             }
             break;
         default:
@@ -38,11 +41,13 @@ const handlePeerCommunication = async (node, type) => {
             break;
 
     }
-    Promise.all(promises)
-        .then(() => {
+    Promise.allSettled(promises)
+        .then((result) => {
+            console.log(result.map(promise => promise.status));
             printPeerList(node);
         })
         .catch((e) => {
+            console.log("errors caught"+ e)
         });
 }
 

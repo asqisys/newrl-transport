@@ -40,11 +40,10 @@ const createPath = (address, peerid) => {
 function printPeerList(node) {
     console.log("Peer list: ")
     node.peerStore.peers.forEach((peer) => {
-        console.log(peer.id)
+        console.log(peer.id.toB58String())
         // let addresses = node.peerStore.addressBook.getMultiaddrsForPeer(peer.id)
         // addressList.push(addresses)
     });
-    console.log("Added all to ")
 }
 
 
