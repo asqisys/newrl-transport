@@ -37,5 +37,15 @@ const createPath = (address, peerid) => {
     return "/ip4/" + address + "/tcp/52724/p2p/" + peerid;
 }
 
+function printPeerList(node) {
+    console.log("Peer list: ")
+    node.peerStore.peers.forEach((peer) => {
+        console.log(peer.id)
+        // let addresses = node.peerStore.addressBook.getMultiaddrsForPeer(peer.id)
+        // addressList.push(addresses)
+    });
+    console.log("Added all to ")
+}
 
-module.exports = {writeJSONFile, readFromJSONFile, connectionPrint, printAddress, createPath}
+
+module.exports = {writeJSONFile, readFromJSONFile, connectionPrint, printAddress, createPath,printPeerList}

@@ -35,7 +35,6 @@ function peerListener(node) {
             concat
         )
         handlePeerCommunication(node,JSON.parse(result.toString()))
-        console.log(result.toString())
     })
 }
 

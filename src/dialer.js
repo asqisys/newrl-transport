@@ -85,7 +85,7 @@ let sendPeerList = (node, target) =>{
         let addresses = node.peerStore.addressBook.getMultiaddrsForPeer(peer.id)
         addressList.push(addresses)
     });
-    dial(node, target, addressList,"/peer_communication")
+    dial(node, target, {"ops":"dlpeer2","list":addressList},"/peer_communication")
 }
 
 module.exports = {dialToAllPeers,updateAllPeers,sendPeerList,dial}
